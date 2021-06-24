@@ -29,19 +29,19 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QGraphicsView *graphicsView;
+    QGraphicsView *graphicsView_DispWindow;
     QGroupBox *groupBox;
-    QLineEdit *lineEdit;
-    QLineEdit *lineEdit_2;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
+    QLineEdit *lineEdit_PointCloudFilePath;
+    QLineEdit *lineEdit_ModelPath;
+    QPushButton *pushButton_SelectPointCloud;
+    QPushButton *pushButton_SelectModel;
     QGroupBox *groupBox_2;
-    QListView *listView;
+    QListView *listView_DataList;
     QScrollBar *verticalScrollBar;
     QGroupBox *groupBox_3;
-    QPushButton *pushButton_3;
-    QPushButton *pushButton_4;
-    QProgressBar *progressBar;
+    QPushButton *pushButton_CPMatch;
+    QPushButton *pushButton_DataExport;
+    QProgressBar *progressBar_MatchingProgress;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -49,33 +49,33 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(931, 600);
+        MainWindow->resize(931, 597);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
-        graphicsView = new QGraphicsView(centralwidget);
-        graphicsView->setObjectName(QString::fromUtf8("graphicsView"));
-        graphicsView->setGeometry(QRect(10, 10, 571, 541));
+        graphicsView_DispWindow = new QGraphicsView(centralwidget);
+        graphicsView_DispWindow->setObjectName(QString::fromUtf8("graphicsView_DispWindow"));
+        graphicsView_DispWindow->setGeometry(QRect(10, 10, 571, 541));
         groupBox = new QGroupBox(centralwidget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
         groupBox->setGeometry(QRect(590, 10, 331, 101));
-        lineEdit = new QLineEdit(groupBox);
-        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-        lineEdit->setGeometry(QRect(10, 20, 201, 21));
-        lineEdit_2 = new QLineEdit(groupBox);
-        lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
-        lineEdit_2->setGeometry(QRect(10, 60, 201, 21));
-        pushButton = new QPushButton(groupBox);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(230, 17, 93, 28));
-        pushButton_2 = new QPushButton(groupBox);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setGeometry(QRect(230, 57, 93, 28));
+        lineEdit_PointCloudFilePath = new QLineEdit(groupBox);
+        lineEdit_PointCloudFilePath->setObjectName(QString::fromUtf8("lineEdit_PointCloudFilePath"));
+        lineEdit_PointCloudFilePath->setGeometry(QRect(10, 20, 201, 21));
+        lineEdit_ModelPath = new QLineEdit(groupBox);
+        lineEdit_ModelPath->setObjectName(QString::fromUtf8("lineEdit_ModelPath"));
+        lineEdit_ModelPath->setGeometry(QRect(10, 60, 201, 21));
+        pushButton_SelectPointCloud = new QPushButton(groupBox);
+        pushButton_SelectPointCloud->setObjectName(QString::fromUtf8("pushButton_SelectPointCloud"));
+        pushButton_SelectPointCloud->setGeometry(QRect(230, 17, 93, 28));
+        pushButton_SelectModel = new QPushButton(groupBox);
+        pushButton_SelectModel->setObjectName(QString::fromUtf8("pushButton_SelectModel"));
+        pushButton_SelectModel->setGeometry(QRect(230, 57, 93, 28));
         groupBox_2 = new QGroupBox(centralwidget);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
         groupBox_2->setGeometry(QRect(590, 120, 331, 341));
-        listView = new QListView(groupBox_2);
-        listView->setObjectName(QString::fromUtf8("listView"));
-        listView->setGeometry(QRect(10, 20, 311, 311));
+        listView_DataList = new QListView(groupBox_2);
+        listView_DataList->setObjectName(QString::fromUtf8("listView_DataList"));
+        listView_DataList->setGeometry(QRect(10, 20, 311, 311));
         verticalScrollBar = new QScrollBar(groupBox_2);
         verticalScrollBar->setObjectName(QString::fromUtf8("verticalScrollBar"));
         verticalScrollBar->setGeometry(QRect(300, 19, 20, 311));
@@ -83,16 +83,17 @@ public:
         groupBox_3 = new QGroupBox(centralwidget);
         groupBox_3->setObjectName(QString::fromUtf8("groupBox_3"));
         groupBox_3->setGeometry(QRect(590, 470, 331, 81));
-        pushButton_3 = new QPushButton(groupBox_3);
-        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
-        pushButton_3->setGeometry(QRect(10, 20, 93, 28));
-        pushButton_4 = new QPushButton(groupBox_3);
-        pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
-        pushButton_4->setGeometry(QRect(200, 20, 93, 28));
-        progressBar = new QProgressBar(groupBox_3);
-        progressBar->setObjectName(QString::fromUtf8("progressBar"));
-        progressBar->setGeometry(QRect(11, 50, 311, 23));
-        progressBar->setValue(24);
+        pushButton_CPMatch = new QPushButton(groupBox_3);
+        pushButton_CPMatch->setObjectName(QString::fromUtf8("pushButton_CPMatch"));
+        pushButton_CPMatch->setGeometry(QRect(10, 20, 93, 28));
+        pushButton_DataExport = new QPushButton(groupBox_3);
+        pushButton_DataExport->setObjectName(QString::fromUtf8("pushButton_DataExport"));
+        pushButton_DataExport->setGeometry(QRect(200, 20, 93, 28));
+        progressBar_MatchingProgress = new QProgressBar(groupBox_3);
+        progressBar_MatchingProgress->setObjectName(QString::fromUtf8("progressBar_MatchingProgress"));
+        progressBar_MatchingProgress->setGeometry(QRect(11, 50, 311, 23));
+        progressBar_MatchingProgress->setMaximum(100);
+        progressBar_MatchingProgress->setValue(50);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
@@ -111,12 +112,12 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         groupBox->setTitle(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266\351\200\211\346\213\251", nullptr));
-        pushButton->setText(QCoreApplication::translate("MainWindow", "\351\200\211\346\213\251\347\202\271\344\272\221", nullptr));
-        pushButton_2->setText(QCoreApplication::translate("MainWindow", "\351\200\211\346\213\251\346\250\241\345\236\213", nullptr));
+        pushButton_SelectPointCloud->setText(QCoreApplication::translate("MainWindow", "\351\200\211\346\213\251\347\202\271\344\272\221", nullptr));
+        pushButton_SelectModel->setText(QCoreApplication::translate("MainWindow", "\351\200\211\346\213\251\346\250\241\345\236\213", nullptr));
         groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "\346\225\260\346\215\256\351\242\204\350\247\210", nullptr));
         groupBox_3->setTitle(QCoreApplication::translate("MainWindow", "\346\225\260\346\215\256\345\244\204\347\220\206", nullptr));
-        pushButton_3->setText(QCoreApplication::translate("MainWindow", "\345\214\271\351\205\215", nullptr));
-        pushButton_4->setText(QCoreApplication::translate("MainWindow", "\345\257\274\345\207\272", nullptr));
+        pushButton_CPMatch->setText(QCoreApplication::translate("MainWindow", "\345\214\271\351\205\215", nullptr));
+        pushButton_DataExport->setText(QCoreApplication::translate("MainWindow", "\345\257\274\345\207\272", nullptr));
     } // retranslateUi
 
 };

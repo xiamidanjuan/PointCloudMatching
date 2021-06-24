@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>931</width>
-    <height>600</height>
+    <height>597</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGraphicsView" name="graphicsView">
+   <widget class="QGraphicsView" name="graphicsView_DispWindow">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -36,7 +36,7 @@
     <property name="title">
      <string>文件选择</string>
     </property>
-    <widget class="QLineEdit" name="lineEdit">
+    <widget class="QLineEdit" name="lineEdit_PointCloudFilePath">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -46,7 +46,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_2">
+    <widget class="QLineEdit" name="lineEdit_ModelPath">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -56,7 +56,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="pushButton_SelectPointCloud">
      <property name="geometry">
       <rect>
        <x>230</x>
@@ -69,7 +69,7 @@
       <string>选择点云</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="pushButton_SelectModel">
      <property name="geometry">
       <rect>
        <x>230</x>
@@ -95,7 +95,7 @@
     <property name="title">
      <string>数据预览</string>
     </property>
-    <widget class="QListView" name="listView">
+    <widget class="QListView" name="listView_DataList">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -131,7 +131,7 @@
     <property name="title">
      <string>数据处理</string>
     </property>
-    <widget class="QPushButton" name="pushButton_3">
+    <widget class="QPushButton" name="pushButton_CPMatch">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -144,7 +144,7 @@
       <string>匹配</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_4">
+    <widget class="QPushButton" name="pushButton_DataExport">
      <property name="geometry">
       <rect>
        <x>200</x>
@@ -157,7 +157,7 @@
       <string>导出</string>
      </property>
     </widget>
-    <widget class="QProgressBar" name="progressBar">
+    <widget class="QProgressBar" name="progressBar_MatchingProgress">
      <property name="geometry">
       <rect>
        <x>11</x>
@@ -166,8 +166,11 @@
        <height>23</height>
       </rect>
      </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
      <property name="value">
-      <number>24</number>
+      <number>50</number>
      </property>
     </widget>
    </widget>
