@@ -95,7 +95,7 @@
     <property name="title">
      <string>数据预览</string>
     </property>
-    <widget class="QListView" name="listView_DataList">
+    <widget class="QTableView" name="tableView_DataList">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -103,19 +103,6 @@
        <width>311</width>
        <height>311</height>
       </rect>
-     </property>
-    </widget>
-    <widget class="QScrollBar" name="verticalScrollBar">
-     <property name="geometry">
-      <rect>
-       <x>300</x>
-       <y>19</y>
-       <width>20</width>
-       <height>311</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </widget>
@@ -181,7 +168,7 @@
      <x>0</x>
      <y>0</y>
      <width>931</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

@@ -13,14 +13,14 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGroupBox>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
-#include <QtWidgets/QListView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QScrollBar>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -36,8 +36,7 @@ public:
     QPushButton *pushButton_SelectPointCloud;
     QPushButton *pushButton_SelectModel;
     QGroupBox *groupBox_2;
-    QListView *listView_DataList;
-    QScrollBar *verticalScrollBar;
+    QTableView *tableView_DataList;
     QGroupBox *groupBox_3;
     QPushButton *pushButton_CPMatch;
     QPushButton *pushButton_DataExport;
@@ -73,13 +72,9 @@ public:
         groupBox_2 = new QGroupBox(centralwidget);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
         groupBox_2->setGeometry(QRect(590, 120, 331, 341));
-        listView_DataList = new QListView(groupBox_2);
-        listView_DataList->setObjectName(QString::fromUtf8("listView_DataList"));
-        listView_DataList->setGeometry(QRect(10, 20, 311, 311));
-        verticalScrollBar = new QScrollBar(groupBox_2);
-        verticalScrollBar->setObjectName(QString::fromUtf8("verticalScrollBar"));
-        verticalScrollBar->setGeometry(QRect(300, 19, 20, 311));
-        verticalScrollBar->setOrientation(Qt::Vertical);
+        tableView_DataList = new QTableView(groupBox_2);
+        tableView_DataList->setObjectName(QString::fromUtf8("tableView_DataList"));
+        tableView_DataList->setGeometry(QRect(10, 20, 311, 311));
         groupBox_3 = new QGroupBox(centralwidget);
         groupBox_3->setObjectName(QString::fromUtf8("groupBox_3"));
         groupBox_3->setGeometry(QRect(590, 470, 331, 81));
@@ -97,7 +92,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 931, 23));
+        menubar->setGeometry(QRect(0, 0, 931, 26));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
