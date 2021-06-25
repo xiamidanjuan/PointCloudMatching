@@ -60,7 +60,7 @@ void MainWindow::TableViewData()
 
             if (scoreList[i].toDouble() < 0.15) 
             {
-                model->item(i, 0)->setForeground(QBrush(QColor(255, 0, 0)));
+                model->item(i, 1)->setForeground(QBrush(QColor(255, 0, 0)));
             }
         }
     }
@@ -68,4 +68,14 @@ void MainWindow::TableViewData()
     {
         QMessageBox::warning(NULL, QStringLiteral("warning"), QString("输入数据不相等！"), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
     }
+}
+
+void MainWindow::on_pushButton_CPMatch_clicked()
+{
+    TableViewData();
+}
+
+void MainWindow::on_pushButton_DataExport_clicked()
+{
+
 }

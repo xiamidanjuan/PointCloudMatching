@@ -22,6 +22,10 @@ private slots:
 
     void TableViewData();
 
+    void on_pushButton_CPMatch_clicked();
+
+    void on_pushButton_DataExport_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
