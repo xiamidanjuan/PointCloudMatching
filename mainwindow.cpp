@@ -77,5 +77,18 @@ void MainWindow::on_pushButton_CPMatch_clicked()
 
 void MainWindow::on_pushButton_DataExport_clicked()
 {
-
+    /*QString curPath = QDir::currentPath();
+    QString dlgTitle = "另存为一个文件";
+    QString filter = "文本文件(*.txt)";
+    QString aFileName = QFileDialog::getSaveFileName(this, dlgTitle, curPath, filter);
+    if (aFileName.isEmpty()) { return; }
+    QFile afile(aFileName);
+    if (afile.open(QIODevice::WriteOnly | QIODevice::Text)) { return; }
+    for (int i = 0; i < nameList.length(); i++) 
+    {
+        QString str = xList[i] + "," + yList[i] + "," + zList[i] + ",";
+        QByteArray strBytes = str.toUtf8();
+        afile.write(strBytes, strBytes.length());
+    }
+    afile.close();*/
 }
