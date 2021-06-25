@@ -8,6 +8,7 @@
 #include <QStandardItemModel>
 
 QStandardItemModel* model = new QStandardItemModel();
+QStringList nameList, scoreList, xList, yList, zList;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -29,7 +30,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::on_pushButton_SelectModel_clicked()
 {
     QString filepath = QString::null;
@@ -39,12 +39,33 @@ void MainWindow::on_pushButton_SelectModel_clicked()
 
 void MainWindow::on_pushButton_SelectPointCloud_clicked()
 {
-    QStringList filePathList;
-    filePathList = QFileDialog::getOpenFileNames(this, "选择点云文件", ".", "PointCloud(*ply)");
+    nameList = QFileDialog::getOpenFileNames(this, "选择点云文件", ".", "PointCloud(*ply)");
+    scoreList = nameList;
+    xList = nameList;
+    yList = nameList;
+    zList = nameList;
+}
 
-    for (int i = 0; i < filePathList.length(); i++) 
+void MainWindow::TableViewData()
+{
+    if (nameList.length()== scoreList.length()&& nameList.length() == xList.length()&& nameList.length() == yList.length()&& nameList.length() == zList.length())
     {
-        model->setItem(i, 0, new QStandardItem(filePathList[i]));
+        for (int i = 0; i < nameList.length(); i++) 
+        {
+            model->setItem(i, 0, new QStandardItem(nameList[i]));
+            model->setItem(i, 1, new QStandardItem(scoreList[i]));
+            model->setItem(i, 2, new QStandardItem(xList[i]));
+            model->setItem(i, 3, new QStandardItem(yList[i]));
+            model->setItem(i, 4, new QStandardItem(zList[i]));
+
+            if (scoreList[i].toDouble() < 0.15) 
+            {
+                model->item(i, 0)->setForeground(QBrush(QColor(255, 0, 0)));
+            }
+        }
     }
-    model->item(3, 0)->setForeground(QBrush(QColor(255, 0, 0)));
+    else
+    {
+        QMessageBox::warning(NULL, QStringLiteral("warning"), QString("输入数据不相等！"), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+    }
 }

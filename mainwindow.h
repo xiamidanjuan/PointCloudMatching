@@ -20,6 +20,8 @@ private slots:
 
     void on_pushButton_SelectPointCloud_clicked();
 
+    void TableViewData();
+
 private:
     Ui::MainWindow *ui;
 };
