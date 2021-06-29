@@ -8,6 +8,7 @@
 #include <QStandardItemModel>
 
 QStandardItemModel* model = new QStandardItemModel();
+QString modelPath;
 QStringList nameList, scoreList, xList, yList, zList;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -32,9 +33,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_SelectModel_clicked()
 {
-    QString filepath;
-    filepath = QFileDialog::getOpenFileName(this, "选择模型文件", ".", "Model(*om3);;Model(*stl);;All(*.*)");
-    QMessageBox::critical(NULL, QStringLiteral("Test"), QString(filepath), QMessageBox::Yes| QMessageBox::No, QMessageBox::Yes);
+    modelPath = QFileDialog::getOpenFileName(this, "选择模型文件", ".", "Model(*om3);;Model(*stl);;All(*.*)");
+    //QMessageBox::critical(NULL, QStringLiteral("Test"), QString(modelPath), QMessageBox::Yes| QMessageBox::No, QMessageBox::Yes);
 }
 
 void MainWindow::on_pushButton_SelectPointCloud_clicked()
