@@ -32,7 +32,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_SelectModel_clicked()
 {
-    QString filepath = QString::null;
+    QString filepath;
     filepath = QFileDialog::getOpenFileName(this, "选择模型文件", ".", "Model(*om3);;Model(*stl);;All(*.*)");
     QMessageBox::critical(NULL, QStringLiteral("Test"), QString(filepath), QMessageBox::Yes| QMessageBox::No, QMessageBox::Yes);
 }
@@ -77,18 +77,18 @@ void MainWindow::on_pushButton_CPMatch_clicked()
 
 void MainWindow::on_pushButton_DataExport_clicked()
 {
-    /*QString curPath = QDir::currentPath();
-    QString dlgTitle = "另存为一个文件";
-    QString filter = "文本文件(*.txt)";
+    QString curPath = QDir::currentPath();
+    QString dlgTitle = "Save File";
+    QString filter = "TXT(*.txt)";
     QString aFileName = QFileDialog::getSaveFileName(this, dlgTitle, curPath, filter);
     if (aFileName.isEmpty()) { return; }
     QFile afile(aFileName);
-    if (afile.open(QIODevice::WriteOnly | QIODevice::Text)) { return; }
+    if (!afile.open(QIODevice::WriteOnly | QIODevice::Text)) { return; }
     for (int i = 0; i < nameList.length(); i++) 
     {
-        QString str = xList[i] + "," + yList[i] + "," + zList[i] + ",";
+        QString str = xList[i] + "," + yList[i] + "," + zList[i] + ",\r";
         QByteArray strBytes = str.toUtf8();
         afile.write(strBytes, strBytes.length());
     }
-    afile.close();*/
+    afile.close();
 }
