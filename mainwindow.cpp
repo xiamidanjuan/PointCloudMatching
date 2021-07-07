@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QFileDialog>
+#include "Halcon.h"
 #ifdef WIN32
 #pragma execution_character_set("utf-8")
 #endif
