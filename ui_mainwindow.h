@@ -48,12 +48,25 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(931, 597);
+        MainWindow->resize(935, 606);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         graphicsView_DispWindow = new QGraphicsView(centralwidget);
         graphicsView_DispWindow->setObjectName(QString::fromUtf8("graphicsView_DispWindow"));
         graphicsView_DispWindow->setGeometry(QRect(10, 10, 571, 541));
+        QPalette palette;
+        QBrush brush(QColor(0, 0, 0, 255));
+        brush.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Button, brush);
+        palette.setBrush(QPalette::Active, QPalette::Base, brush);
+        palette.setBrush(QPalette::Active, QPalette::Window, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Button, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Base, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Window, brush);
+        palette.setBrush(QPalette::Disabled, QPalette::Button, brush);
+        palette.setBrush(QPalette::Disabled, QPalette::Base, brush);
+        palette.setBrush(QPalette::Disabled, QPalette::Window, brush);
+        graphicsView_DispWindow->setPalette(palette);
         groupBox = new QGroupBox(centralwidget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
         groupBox->setGeometry(QRect(590, 10, 331, 101));
@@ -92,7 +105,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 931, 26));
+        menubar->setGeometry(QRect(0, 0, 935, 23));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));

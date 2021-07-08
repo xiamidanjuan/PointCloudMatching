@@ -26,6 +26,8 @@ private slots:
 
     void on_pushButton_DataExport_clicked();
 
+    void Matching();
+
 private:
     Ui::MainWindow *ui;
 };

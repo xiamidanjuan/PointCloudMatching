@@ -187,6 +187,7 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="halconvisualize.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
   </ItemGroup>
@@ -215,6 +216,9 @@
   <ItemGroup>
     <QtUic Include="mainwindow.ui">
     </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="halconvisualize.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
