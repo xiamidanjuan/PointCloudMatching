@@ -20,7 +20,7 @@ private slots:
 
     void on_pushButton_SelectPointCloud_clicked();
 
-    void TableViewData();
+    void TableViewData(int);
 
     void on_pushButton_CPMatch_clicked();
 

@@ -40,24 +40,23 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_SelectModel_clicked()
 {
     modelPath = QFileDialog::getOpenFileName(this, "选择模型文件", ".", "Model(*om3);;Model(*stl);;All(*.*)");
+    ui->lineEdit_ModelPath->setText(modelPath);
     //QMessageBox::critical(NULL, QStringLiteral("Test"), QString(modelPath), QMessageBox::Yes| QMessageBox::No, QMessageBox::Yes);
 }
 
 void MainWindow::on_pushButton_SelectPointCloud_clicked()
 {
+    nameList.clear();
     nameList = QFileDialog::getOpenFileNames(this, "选择点云文件", ".", "PointCloud(*ply)");
-    scoreList = nameList;
-    xList = nameList;
-    yList = nameList;
-    zList = nameList;
+    ui->lineEdit_PointCloudFilePath->setText(nameList[0]);
 }
 
-void MainWindow::TableViewData()
-{
+void MainWindow::TableViewData(int i)
+{/*
     if (nameList.length()== scoreList.length()&& nameList.length() == xList.length()&& nameList.length() == yList.length()&& nameList.length() == zList.length())
     {
         for (int i = 0; i < nameList.length(); i++) 
-        {
+        {*/
             model->setItem(i, 0, new QStandardItem(nameList[i]));
             model->setItem(i, 1, new QStandardItem(scoreList[i]));
             model->setItem(i, 2, new QStandardItem(xList[i]));
@@ -68,18 +67,22 @@ void MainWindow::TableViewData()
             {
                 model->item(i, 1)->setForeground(QBrush(QColor(255, 0, 0)));
             }
-        }
+   /*     }
     }
     else
     {
-        QMessageBox::warning(NULL, QStringLiteral("warning"), QString("输入数据不相等！"), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
-    }
+        QMessageBox::warning(NULL, QStringLiteral("warning"), QString("Input data are not equal!"), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+    }*/
 }
 
 void MainWindow::on_pushButton_CPMatch_clicked()
 {
+    scoreList.clear();
+    xList.clear();
+    yList.clear();
+    zList.clear();
+    model->clear();
     Matching();
-    TableViewData();
 }
 
 void MainWindow::on_pushButton_DataExport_clicked()
@@ -104,7 +107,7 @@ void MainWindow::Matching()
 {
     HTuple  hv_WindowHandle;
     HTuple  hv_ObjectModel3D, hv_Status, hv_SurfaceModelID;
-    HTuple  hv_Index, hv_ObjectModel3D1, hv_Status1, hv_ObjectModel3DThresholded;
+    HTuple  hv_ObjectModel3D1, hv_Status1, hv_ObjectModel3DThresholded;
     HTuple  hv_Pose, hv_Score, hv_SurfaceMatchingResultID, hv_ObjectModel3DRigidTrans;
     HTuple  hv_PoseOut;
 
@@ -127,10 +130,25 @@ void MainWindow::Matching()
         QByteArray qba = nameList[i].toLatin1();
         const char* hv_CloudPath = qba.data();
         ReadObjectModel3d(hv_CloudPath, "m", HTuple(), HTuple(), &hv_ObjectModel3D1, &hv_Status1);
-        SelectPointsObjectModel3d(hv_ObjectModel3D1, "point_coord_z", 0.5, 1, &hv_ObjectModel3DThresholded);
         FindSurfaceModel(hv_SurfaceModelID, hv_ObjectModel3D1, 0.05, 0.2, 0, "false", HTuple(), HTuple(), &hv_Pose, &hv_Score, &hv_SurfaceMatchingResultID);
         RigidTransObjectModel3d(hv_ObjectModel3D, hv_Pose, &hv_ObjectModel3DRigidTrans);
         halconVisualize.visualize_object_model_3d(hv_WindowHandle, hv_ObjectModel3DRigidTrans.TupleConcat(hv_ObjectModel3D1),
             HTuple(), HTuple(), (HTuple("color_0").Append("color_1")), (HTuple("green").Append("gray")), HTuple(), HTuple(), HTuple(), &hv_PoseOut);
+
+        HString hstrScore = hv_Score.ToString();
+        std::string strScore = (std::string)hstrScore;
+        QString qstrScore = QString::fromStdString(strScore);
+        scoreList.append(qstrScore);
+
+        HString hstrPose = hv_Pose.ToString();
+        std::string strPose = (std::string)hstrPose;
+        QString qstrPose = QString::fromStdString(strPose);
+        qstrPose.remove(QString("["));
+        QStringList poseList = qstrPose.split(",");
+        xList.append(poseList[0]);
+        yList.append(poseList[1]);
+        zList.append(poseList[2]);
+
+        TableViewData(i);
     }
 }
