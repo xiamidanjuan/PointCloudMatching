@@ -100,12 +100,12 @@ public:
         progressBar_MatchingProgress = new QProgressBar(groupBox_3);
         progressBar_MatchingProgress->setObjectName(QString::fromUtf8("progressBar_MatchingProgress"));
         progressBar_MatchingProgress->setGeometry(QRect(11, 50, 311, 23));
-        progressBar_MatchingProgress->setMaximum(100);
-        progressBar_MatchingProgress->setValue(50);
+        progressBar_MatchingProgress->setMaximum(0);
+        progressBar_MatchingProgress->setValue(0);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 935, 23));
+        menubar->setGeometry(QRect(0, 0, 935, 26));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));

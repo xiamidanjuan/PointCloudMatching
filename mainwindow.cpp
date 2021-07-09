@@ -30,6 +30,9 @@ MainWindow::MainWindow(QWidget* parent)
 	model->setHeaderData(2, Qt::Horizontal, QString::fromLocal8Bit("X"));
 	model->setHeaderData(3, Qt::Horizontal, QString::fromLocal8Bit("Y"));
 	model->setHeaderData(4, Qt::Horizontal, QString::fromLocal8Bit("Z"));
+
+	ui->progressBar_MatchingProgress->setOrientation(Qt::Horizontal);
+	ui->progressBar_MatchingProgress->setMinimum(0);
 }
 
 MainWindow::~MainWindow()
@@ -45,9 +48,11 @@ void MainWindow::on_pushButton_SelectModel_clicked()
 
 void MainWindow::on_pushButton_SelectPointCloud_clicked()
 {
+	ui->progressBar_MatchingProgress->reset();
 	nameList.clear();
 	nameList = QFileDialog::getOpenFileNames(this, "Select Point Cloud", ".", "PointCloud(*ply)");
 	ui->lineEdit_PointCloudFilePath->setText(nameList[0]);
+	ui->progressBar_MatchingProgress->setMaximum(nameList.length());
 }
 
 void MainWindow::TableViewData(int i)
@@ -147,7 +152,7 @@ void MainWindow::Matching()
 		xList.append(poseList[0]);
 		yList.append(poseList[1]);
 		zList.append(poseList[2]);
-
+		ui->progressBar_MatchingProgress->setValue(i + 1);
 		TableViewData(i);
 	}
 }
