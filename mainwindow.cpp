@@ -80,79 +80,94 @@ void MainWindow::on_pushButton_CPMatch_clicked()
 
 void MainWindow::on_pushButton_DataExport_clicked()
 {
-	QString curPath = QDir::currentPath();
-	QString dlgTitle = "Save File";
-	QString filter = "TXT(*.txt)";
-	QString aFileName = QFileDialog::getSaveFileName(this, dlgTitle, curPath, filter);
-	if (aFileName.isEmpty()) { return; }
-	QFile afile(aFileName);
-	if (!afile.open(QIODevice::WriteOnly | QIODevice::Text)) { return; }
-	for (int i = 0; i < nameList.length(); i++)
+	try
 	{
-		QString str;
-		if (i < nameList.length() - 1)
+		QString curPath = QDir::currentPath();
+		QString dlgTitle = "Save File";
+		QString filter = "TXT(*.txt)";
+		QString aFileName = QFileDialog::getSaveFileName(this, dlgTitle, curPath, filter);
+		if (aFileName.isEmpty()) { return; }
+		QFile afile(aFileName);
+		if (!afile.open(QIODevice::WriteOnly | QIODevice::Text)) { return; }
+		for (int i = 0; i < nameList.length(); i++)
 		{
-			str = xList[i] + "," + yList[i] + "," + zList[i] + ",1,\r";
+			QString str;
+			if (i < nameList.length() - 1)
+			{
+				str = xList[i] + "," + yList[i] + "," + zList[i] + ",1,\r";
+			}
+			else
+			{
+				str = xList[i] + "," + yList[i] + "," + zList[i] + ",1,";
+			}
+			QByteArray strBytes = str.toUtf8();
+			afile.write(strBytes, strBytes.length());
 		}
-		else
-		{
-			str = xList[i] + "," + yList[i] + "," + zList[i] + ",1,";
-		}
-		QByteArray strBytes = str.toUtf8();
-		afile.write(strBytes, strBytes.length());
+		afile.close();
 	}
-	afile.close();
+	catch (const std::exception& e)
+	{
+		QMessageBox::critical(NULL, QStringLiteral("Critical"), QString(e.what()), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+	}
 }
 
 void MainWindow::Matching()
 {
-	if (modelPath.isEmpty() || nameList[0].isEmpty())
+	try
 	{
-		QMessageBox::critical(NULL, QStringLiteral("Critical"), QString("Please import model and point cloud files!"), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
-		return;
+
+		if (modelPath.isEmpty() || nameList[0].isEmpty())
+		{
+			QMessageBox::critical(NULL, QStringLiteral("Critical"), QString("Please import model and point cloud files!"), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+			return;
+		}
+		HTuple  hv_WindowHandle;
+		HTuple  hv_ObjectModel3D, hv_Status, hv_SurfaceModelID;
+		HTuple  hv_ObjectModel3D1, hv_Status1, hv_ObjectModel3DThresholded;
+		HTuple  hv_Pose, hv_Score, hv_SurfaceMatchingResultID, hv_ObjectModel3DRigidTrans;
+		HTuple  hv_PoseOut;
+
+		Hlong windowID = (Hlong)this->ui->graphicsView_DispWindow->winId();
+		CloseWindow(hv_WindowHandle);
+		OpenWindow(0, 0, ui->graphicsView_DispWindow->width(), ui->graphicsView_DispWindow->height(), windowID, "visible", "", &hv_WindowHandle);
+		SetWindowAttr("background_color", "black");
+		HDevWindowStack::Push(hv_WindowHandle);
+
+		QByteArray ba = modelPath.toLatin1();
+		const char* hv_ModelPath = ba.data();
+
+		ReadObjectModel3d(hv_ModelPath, "m", HTuple(), HTuple(), &hv_ObjectModel3D, &hv_Status);
+		CreateSurfaceModel(hv_ObjectModel3D, 0.03, HTuple(), HTuple(), &hv_SurfaceModelID);
+		for (int i = 0; i < nameList.length(); i++)
+		{
+			QByteArray qba = nameList[i].toLatin1();
+			const char* hv_CloudPath = qba.data();
+			ReadObjectModel3d(hv_CloudPath, "m", HTuple(), HTuple(), &hv_ObjectModel3D1, &hv_Status1);
+			FindSurfaceModel(hv_SurfaceModelID, hv_ObjectModel3D1, 0.05, 0.2, 0, "false", HTuple(), HTuple(), &hv_Pose, &hv_Score, &hv_SurfaceMatchingResultID);
+			RigidTransObjectModel3d(hv_ObjectModel3D, hv_Pose, &hv_ObjectModel3DRigidTrans);
+			halconVisualize.visualize_object_model_3d(hv_WindowHandle, hv_ObjectModel3DRigidTrans.TupleConcat(hv_ObjectModel3D1),
+				HTuple(), HTuple(), (HTuple("color_0").Append("color_1")), (HTuple("green").Append("gray")), HTuple(), HTuple(), HTuple(), &hv_PoseOut);
+
+			HString hstrScore = hv_Score.ToString();
+			std::string strScore = (std::string)hstrScore;
+			QString qstrScore = QString::fromStdString(strScore);
+			scoreList.append(qstrScore);
+
+			HString hstrPose = hv_Pose.ToString();
+			std::string strPose = (std::string)hstrPose;
+			QString qstrPose = QString::fromStdString(strPose);
+			qstrPose.remove(QString("["));
+			qstrPose.remove(QString(" "));
+			QStringList poseList = qstrPose.split(",");
+			xList.append(poseList[0]);
+			yList.append(poseList[1]);
+			zList.append(poseList[2]);
+			ui->progressBar_MatchingProgress->setValue(i + 1);
+			TableViewData(i);
+		}
 	}
-	HTuple  hv_WindowHandle;
-	HTuple  hv_ObjectModel3D, hv_Status, hv_SurfaceModelID;
-	HTuple  hv_ObjectModel3D1, hv_Status1, hv_ObjectModel3DThresholded;
-	HTuple  hv_Pose, hv_Score, hv_SurfaceMatchingResultID, hv_ObjectModel3DRigidTrans;
-	HTuple  hv_PoseOut;
-
-	Hlong windowID = (Hlong)this->ui->graphicsView_DispWindow->winId();
-	CloseWindow(hv_WindowHandle);
-	OpenWindow(0, 0, ui->graphicsView_DispWindow->width(), ui->graphicsView_DispWindow->height(), windowID, "visible", "", &hv_WindowHandle);
-	SetWindowAttr("background_color", "black");
-	HDevWindowStack::Push(hv_WindowHandle);
-
-	QByteArray ba = modelPath.toLatin1();
-	const char* hv_ModelPath = ba.data();
-
-	ReadObjectModel3d(hv_ModelPath, "m", HTuple(), HTuple(), &hv_ObjectModel3D, &hv_Status);
-	CreateSurfaceModel(hv_ObjectModel3D, 0.03, HTuple(), HTuple(), &hv_SurfaceModelID);
-	for (int i = 0; i < nameList.length(); i++)
+	catch (const std::exception& e)
 	{
-		QByteArray qba = nameList[i].toLatin1();
-		const char* hv_CloudPath = qba.data();
-		ReadObjectModel3d(hv_CloudPath, "m", HTuple(), HTuple(), &hv_ObjectModel3D1, &hv_Status1);
-		FindSurfaceModel(hv_SurfaceModelID, hv_ObjectModel3D1, 0.05, 0.2, 0, "false", HTuple(), HTuple(), &hv_Pose, &hv_Score, &hv_SurfaceMatchingResultID);
-		RigidTransObjectModel3d(hv_ObjectModel3D, hv_Pose, &hv_ObjectModel3DRigidTrans);
-		halconVisualize.visualize_object_model_3d(hv_WindowHandle, hv_ObjectModel3DRigidTrans.TupleConcat(hv_ObjectModel3D1),
-			HTuple(), HTuple(), (HTuple("color_0").Append("color_1")), (HTuple("green").Append("gray")), HTuple(), HTuple(), HTuple(), &hv_PoseOut);
-
-		HString hstrScore = hv_Score.ToString();
-		std::string strScore = (std::string)hstrScore;
-		QString qstrScore = QString::fromStdString(strScore);
-		scoreList.append(qstrScore);
-
-		HString hstrPose = hv_Pose.ToString();
-		std::string strPose = (std::string)hstrPose;
-		QString qstrPose = QString::fromStdString(strPose);
-		qstrPose.remove(QString("["));
-		qstrPose.remove(QString(" "));
-		QStringList poseList = qstrPose.split(",");
-		xList.append(poseList[0]);
-		yList.append(poseList[1]);
-		zList.append(poseList[2]);
-		ui->progressBar_MatchingProgress->setValue(i + 1);
-		TableViewData(i);
+		QMessageBox::critical(NULL, QStringLiteral("Critical"), QString(e.what()), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
 	}
 }
