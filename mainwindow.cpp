@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget* parent)
 	ui->setupUi(this);
 
 	ui->tableView_DataList->setModel(model);
+	ui->tableView_DataList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	model->setColumnCount(5);
 	model->setHeaderData(0, Qt::Horizontal, QString::fromLocal8Bit("Name"));
 	model->setHeaderData(1, Qt::Horizontal, QString::fromLocal8Bit("Score"));
@@ -42,29 +43,54 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_SelectModel_clicked()
 {
-	modelPath = QFileDialog::getOpenFileName(this, "Select Model", ".", "Model(*om3);;Model(*stl);;All(*.*)");
-	ui->lineEdit_ModelPath->setText(modelPath);
+	try
+	{
+		modelPath = QFileDialog::getOpenFileName(this, "Select Model", ".", "Model(*om3);;Model(*stl);;All(*.*)");
+		ui->lineEdit_ModelPath->setText(modelPath);
+	}
+	catch (const std::exception& e)
+	{
+		QMessageBox::critical(NULL, QStringLiteral("Critical"), QString(e.what()), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+	}
 }
 
 void MainWindow::on_pushButton_SelectPointCloud_clicked()
 {
-	ui->progressBar_MatchingProgress->reset();
-	nameList.clear();
-	nameList = QFileDialog::getOpenFileNames(this, "Select Point Cloud", ".", "PointCloud(*ply)");
-	ui->lineEdit_PointCloudFilePath->setText(nameList[0]);
-	ui->progressBar_MatchingProgress->setMaximum(nameList.length());
+	try
+	{
+		ui->progressBar_MatchingProgress->reset();
+		nameList.clear();
+		nameList = QFileDialog::getOpenFileNames(this, "Select Point Cloud", ".", "PointCloud(*ply)");
+		if (nameList.size() == 0) 
+		{
+			return;
+		}
+		ui->lineEdit_PointCloudFilePath->setText(nameList[0]);
+		ui->progressBar_MatchingProgress->setMaximum(nameList.length());
+	}
+	catch (const std::exception& e)
+	{
+		QMessageBox::critical(NULL, QStringLiteral("Critical"), QString(e.what()), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+	}
 }
 
 void MainWindow::TableViewData(int i)
 {
-	model->setItem(i, 0, new QStandardItem(nameList[i]));
-	model->setItem(i, 1, new QStandardItem(scoreList[i]));
-	model->setItem(i, 2, new QStandardItem(xList[i]));
-	model->setItem(i, 3, new QStandardItem(yList[i]));
-	model->setItem(i, 4, new QStandardItem(zList[i]));
-	if (scoreList[i].toDouble() < 0.15)
+	try
 	{
-		model->item(i, 1)->setForeground(QBrush(QColor(255, 0, 0)));
+		model->setItem(i, 0, new QStandardItem(nameList[i]));
+		model->setItem(i, 1, new QStandardItem(scoreList[i]));
+		model->setItem(i, 2, new QStandardItem(xList[i]));
+		model->setItem(i, 3, new QStandardItem(yList[i]));
+		model->setItem(i, 4, new QStandardItem(zList[i]));
+		if (scoreList[i].toDouble() < 0.15)
+		{
+			model->item(i, 1)->setForeground(QBrush(QColor(255, 0, 0)));
+		}
+	}
+	catch (const std::exception& e)
+	{
+		QMessageBox::critical(NULL, QStringLiteral("Critical"), QString(e.what()), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
 	}
 }
 
