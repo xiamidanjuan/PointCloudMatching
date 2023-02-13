@@ -26,6 +26,9 @@ MainWindow::MainWindow(QWidget* parent)
 	ui->tableView_DataList->setModel(model);
 	ui->tableView_DataList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	model->setColumnCount(5);
+	ui->tableView_DataList->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
+
+	ui->tableView_DataList->setColumnWidth(0, 50);
 	model->setHeaderData(0, Qt::Horizontal, QString::fromLocal8Bit("Name"));
 	model->setHeaderData(1, Qt::Horizontal, QString::fromLocal8Bit("Score"));
 	model->setHeaderData(2, Qt::Horizontal, QString::fromLocal8Bit("X"));
@@ -149,6 +152,7 @@ void MainWindow::Matching()
 		}
 		HTuple  hv_WindowHandle;
 		HTuple  hv_ObjectModel3D, hv_Status, hv_SurfaceModelID;
+		HTuple  hv_SampledObjectModel3D, hv_ObjectModel3DNormals;
 		HTuple  hv_ObjectModel3D1, hv_Status1, hv_ObjectModel3DThresholded;
 		HTuple  hv_Pose, hv_Score, hv_SurfaceMatchingResultID, hv_ObjectModel3DRigidTrans;
 		HTuple  hv_PoseOut;
@@ -163,6 +167,8 @@ void MainWindow::Matching()
 		const char* hv_ModelPath = ba.data();
 
 		ReadObjectModel3d(hv_ModelPath, "m", HTuple(), HTuple(), &hv_ObjectModel3D, &hv_Status);
+		/*SampleObjectModel3d(hv_ObjectModel3D, 'fast', 5, HTuple(), HTuple(), &hv_SampledObjectModel3D);
+		SurfaceNormalsObjectModel3d(hv_SampledObjectModel3D, 'mls', HTuple(), HTuple(), &hv_ObjectModel3DNormals);*/
 		CreateSurfaceModel(hv_ObjectModel3D, 0.03, HTuple(), HTuple(), &hv_SurfaceModelID);
 		for (int i = 0; i < nameList.length(); i++)
 		{
