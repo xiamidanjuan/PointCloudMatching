@@ -26,9 +26,6 @@ MainWindow::MainWindow(QWidget* parent)
 	ui->tableView_DataList->setModel(model);
 	ui->tableView_DataList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	model->setColumnCount(5);
-	ui->tableView_DataList->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
-
-	ui->tableView_DataList->setColumnWidth(0, 50);
 	model->setHeaderData(0, Qt::Horizontal, QString::fromLocal8Bit("Name"));
 	model->setHeaderData(1, Qt::Horizontal, QString::fromLocal8Bit("Score"));
 	model->setHeaderData(2, Qt::Horizontal, QString::fromLocal8Bit("X"));
